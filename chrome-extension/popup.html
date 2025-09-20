@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Playlist Downloader Pro</title>
+    <link rel="stylesheet" href="popup.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fab fa-youtube"></i>
+                <span>YT Downloader Pro</span>
+            </div>
+            <div class="version">v1.0.0</div>
+        </div>
+
+        <!-- Current Page Info -->
+        <div class="page-info" id="pageInfo">
+            <div class="page-status">
+                <i class="fas fa-globe"></i>
+                <span id="pageStatus">Detecting page...</span>
+            </div>
+            <div class="page-url" id="pageUrl"></div>
+        </div>
+
+        <!-- Playlist Detection -->
+        <div class="playlist-section" id="playlistSection">
+            <div class="section-title">
+                <i class="fas fa-list"></i>
+                <span>Detected Playlist</span>
+            </div>
+            <div class="playlist-info" id="playlistInfo">
+                <div class="playlist-title" id="playlistTitle">No playlist detected</div>
+                <div class="playlist-meta" id="playlistMeta"></div>
+            </div>
+        </div>
+
+        <!-- Quality Settings -->
+        <div class="settings-section">
+            <div class="section-title">
+                <i class="fas fa-cog"></i>
+                <span>Download Settings</span>
+            </div>
+            
+            <div class="setting-group">
+                <label for="quality">Video Quality:</label>
+                <select id="quality" class="setting-select">
+                    <option value="best">Best Available (Recommended)</option>
+                    <option value="2160">4K (2160p)</option>
+                    <option value="1440">2K (1440p)</option>
+                    <option value="1080">Full HD (1080p)</option>
+                    <option value="720">HD (720p)</option>
+                    <option value="480">SD (480p)</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label for="format">Output Format:</label>
+                <select id="format" class="setting-select">
+                    <option value="mp4">MP4 (Recommended)</option>
+                    <option value="mkv">MKV</option>
+                    <option value="webm">WebM</option>
+                </select>
+            </div>
+
+            <div class="setting-group checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="audioGuarantee" checked>
+                    <span class="checkmark"></span>
+                    <span class="label-text">
+                        <i class="fas fa-volume-up"></i>
+                        Guarantee Audio Quality
+                    </span>
+                </label>
+            </div>
+
+            <div class="setting-group checkbox-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="notifications" checked>
+                    <span class="checkmark"></span>
+                    <span class="label-text">
+                        <i class="fas fa-bell"></i>
+                        Show Notifications
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Download Actions -->
+        <div class="actions-section">
+            <button class="btn btn-primary" id="downloadBtn" disabled>
+                <i class="fas fa-download"></i>
+                <span>Download Playlist</span>
+                <div class="loading-spinner" id="loadingSpinner"></div>
+            </button>
+            
+            <button class="btn btn-secondary" id="downloadSingleBtn" disabled>
+                <i class="fas fa-video"></i>
+                <span>Download Current Video</span>
+            </button>
+
+            <button class="btn btn-outline" id="openServerBtn">
+                <i class="fas fa-server"></i>
+                <span>Open Download Server</span>
+            </button>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section" id="progressSection" style="display: none;">
+            <div class="section-title">
+                <i class="fas fa-chart-line"></i>
+                <span>Download Progress</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 / 0 videos</div>
+            <div class="progress-speed" id="progressSpeed">Ready</div>
+        </div>
+
+        <!-- Status Messages -->
+        <div class="status-section" id="statusSection">
+            <div class="status-message" id="statusMessage">
+                <i class="fas fa-info-circle"></i>
+                <span>Ready to download. Navigate to a YouTube playlist to get started.</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <button class="footer-btn" id="settingsBtn">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </button>
+                <button class="footer-btn" id="helpBtn">
+                    <i class="fas fa-question-circle"></i>
+                    Help
+                </button>
+                <button class="footer-btn" id="aboutBtn">
+                    <i class="fas fa-info"></i>
+                    About
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

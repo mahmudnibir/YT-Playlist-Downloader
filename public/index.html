@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Downloader Pro - Serverless API</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .status-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .status-icon {
+            font-size: 4em;
+            color: #4ecdc4;
+            margin-bottom: 20px;
+        }
+
+        .api-endpoints {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .api-endpoints h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #4ecdc4;
+        }
+
+        .endpoint {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .endpoint-method {
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .endpoint-path {
+            color: #4ecdc4;
+            font-family: monospace;
+        }
+
+        .endpoint-desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .note {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .note h4 {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .github-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 20px 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .github-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .test-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .test-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            font-family: monospace;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fab fa-youtube"></i> YouTube Downloader Pro</h1>
+            <p>Serverless API - Hosted on Netlify</p>
+            <p><i class="fas fa-cloud"></i> Cloud-powered video analysis and download assistance</p>
+        </div>
+
+        <div class="status-card">
+            <div class="status-icon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h2>🎉 API is Live and Running!</h2>
+            <p>Your serverless YouTube downloader API is successfully deployed and ready to use.</p>
+            
+            <button class="test-button" onclick="testHealthEndpoint()">
+                <i class="fas fa-heartbeat"></i> Test Health Check
+            </button>
+            
+            <div id="testResult" class="test-result" style="display: none;"></div>
+        </div>
+
+        <div class="api-endpoints">
+            <h3><i class="fas fa-code"></i> Available API Endpoints</h3>
+            
+            <div class="endpoint">
+                <div>
+                    <span class="endpoint-method">GET</span>
+                    <span class="endpoint-path">/api/health</span>
+                </div>
+                <div class="endpoint-desc">Health check and API status</div>
+            </div>
+            
+            <div class="endpoint">
+                <div>
+                    <span class="endpoint-method">POST</span>
+                    <span class="endpoint-path">/api/download-playlist</span>
+                </div>
+                <div class="endpoint-desc">Analyze YouTube playlist and get video information</div>
+            </div>
+            
+            <div class="endpoint">
+                <div>
+                    <span class="endpoint-method">POST</span>
+                    <span class="endpoint-path">/api/download-video</span>
+                </div>
+                <div class="endpoint-desc">Analyze single YouTube video and get metadata</div>
+            </div>
+            
+            <div class="endpoint">
+                <div>
+                    <span class="endpoint-method">GET</span>
+                    <span class="endpoint-path">/api/settings</span>
+                </div>
+                <div class="endpoint-desc">Get default downloader settings and configuration</div>
+            </div>
+        </div>
+
+        <div class="note">
+            <h4><i class="fas fa-info-circle"></i> Important Note</h4>
+            <p>This serverless API provides <strong>video analysis and metadata extraction</strong>. Due to Netlify's limitations, actual file downloads must be handled locally using the provided Python scripts.</p>
+            <p>Use your Chrome extension to analyze videos, then download them locally for the best experience!</p>
+        </div>
+
+        <div>
+            <a href="https://github.com/your-username/youtube-downloader-pro" class="github-link">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
+            
+            <a href="#" class="github-link" onclick="copyApiUrl()">
+                <i class="fas fa-copy"></i> Copy API URL
+            </a>
+        </div>
+
+        <div style="margin-top: 40px; opacity: 0.7;">
+            <p>Made with ❤️ for YouTube enthusiasts</p>
+            <p>Powered by Netlify Functions & yt-dlp</p>
+        </div>
+    </div>
+
+    <script>
+        async function testHealthEndpoint() {
+            const resultDiv = document.getElementById('testResult');
+            resultDiv.style.display = 'block';
+            resultDiv.textContent = 'Testing API health...';
+            
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Health Check Successful!</strong><br>
+                    Status: ${data.status}<br>
+                    Version: ${data.version}<br>
+                    Timestamp: ${data.timestamp}<br>
+                    Platform: ${data.platform}
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <strong>❌ Health Check Failed</strong><br>
+                    Error: ${error.message}
+                `;
+            }
+        }
+
+        function copyApiUrl() {
+            const url = window.location.origin;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('API URL copied to clipboard: ' + url);
+            });
+        }
+
+        // Test health endpoint on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(testHealthEndpoint, 1000);
+        });
+    </script>
+</body>
+</html>
