@@ -326,7 +326,15 @@ class YouTubeDownloaderPopup {
 
     async openDownloadServer() {
         try {
-            await chrome.runtime.sendMessage({ action: 'openDownloadServer' });
+            if (this.isCloudMode) {
+                // Open the Netlify API dashboard
+                chrome.tabs.create({ 
+                    url: this.apiUrl.replace('/api', '') 
+                });
+            } else {
+                // Open local server dashboard
+                await chrome.runtime.sendMessage({ action: 'openDownloadServer' });
+            }
         } catch (error) {
             console.error('Failed to open server:', error);
             this.showError('Could not open download server');
